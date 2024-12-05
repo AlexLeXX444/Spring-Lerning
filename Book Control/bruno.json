@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "Book Control",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}

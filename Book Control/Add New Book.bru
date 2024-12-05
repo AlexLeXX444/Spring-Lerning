@@ -1,0 +1,17 @@
+meta {
+  name: Add New Book
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/book
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "name": "Кринж на морях 3"
+    }
+}
