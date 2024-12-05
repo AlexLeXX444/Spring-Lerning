@@ -1,5 +1,6 @@
 package my.app.homework.configuration.security;
 
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import my.app.homework.model.security.User;
 import my.app.homework.repository.security.UserRepository;
@@ -8,12 +9,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,16 +31,17 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((authz) -> authz
-                        .requestMatchers("/api/*").permitAll()
-                        .requestMatchers("/swagger-ui/**").permitAll()  // Путь к Swagger UI
-                        .requestMatchers("/v3/api-docs/**").permitAll()  // Путь к документации API
-                        .requestMatchers("/swagger-resources/**").permitAll()  // Ресурсы Swagger
+                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-resources/**").permitAll()
                         .requestMatchers("/webjars/swagger-ui/**").permitAll()
                         .requestMatchers("/webjars/**").permitAll()
                         .requestMatchers("/book/**").authenticated()
-                        .requestMatchers("/reader/**").hasAnyRole("READER")
-                        .requestMatchers("/issue/**").hasAnyRole("ADMIN")
+                        .requestMatchers("/reader").hasAnyRole("READER", "ADMIN")
+                        .requestMatchers("/reader/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(customUserDetailsService)
@@ -64,6 +68,6 @@ public class SecurityConfiguration {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return NoOpPasswordEncoder.getInstance(); // Используем NoOpPasswordEncoder
+        return NoOpPasswordEncoder.getInstance();
     }
 }
