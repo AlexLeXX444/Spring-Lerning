@@ -40,7 +40,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/webjars/swagger-ui/**").permitAll()
                         .requestMatchers("/webjars/**").permitAll()
                         .requestMatchers("/book/**").authenticated()
-                        .requestMatchers("/reader").hasAnyRole("READER", "ADMIN")
+                        .requestMatchers("/readers").hasAnyRole("READER", "ADMIN")
                         .requestMatchers("/reader/**").hasAnyRole("ADMIN")
                         .anyRequest().authenticated()
                 )
