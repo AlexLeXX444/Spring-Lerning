@@ -5,19 +5,15 @@ import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.Scroller;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.sidenav.SideNav;
 import com.vaadin.flow.component.sidenav.SideNavItem;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 
-@Route("")
-public class HomeView extends AppLayout {
+public abstract class MainView extends AppLayout {
 
-    public HomeView() {
+    public MainView() {
         DrawerToggle toggle = new DrawerToggle();
         SideNav nav = getSideNav();
-        VerticalLayout layout = new VerticalLayout();
 
         H1 title = new H1("Библиотека");
         title.getStyle().set("font-size", "var(--lumo-font-size-l)")
@@ -26,12 +22,8 @@ public class HomeView extends AppLayout {
         Scroller scroller = new Scroller(nav);
         scroller.setClassName(LumoUtility.Padding.SMALL);
 
-        layout.add("Just string");
-
-
         addToDrawer(scroller);
         addToNavbar(toggle, title);
-        setContent(layout);
     }
 
     private SideNav getSideNav() {

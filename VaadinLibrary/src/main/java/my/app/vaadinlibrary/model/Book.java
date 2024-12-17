@@ -25,4 +25,10 @@ public class Book {
 
     @Column(name = "count", nullable = false)
     private int count;
+
+    public Book(String author, String name, int count) {
+        this.author = author;
+        this.name = name;
+        this.count = count;
+    }
 }

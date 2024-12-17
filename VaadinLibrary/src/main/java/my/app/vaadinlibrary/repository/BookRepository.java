@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface BookRepository extends JpaRepository<Book, Long> {
     boolean existsByNameAndAuthor(String name, String author);
     boolean existsByNameAndAuthorAndCount(String name, String author, int count);
+
+    long countByCount(int count);
 }

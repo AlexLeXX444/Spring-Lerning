@@ -44,4 +44,16 @@ public class BookService {
         }
         return Optional.empty();
     }
+
+    public long count() {
+        return bookRepository.count();
+    }
+
+    public long countByCount() {
+        List<Book> books = bookRepository.findAll();
+
+        return books.stream()
+                .filter(book -> book.getCount() > 0)
+                .count();
+    }
 }
